@@ -57,4 +57,5 @@ El proyecto incluye un archivo `docker-compose.yml` para facilitar la ejecución
    ```bash
    docker-compose down
    ```
-
+### Uso
+   Se debe realizar una petición GET a la siguiente ruta "calculations/{value}" donde value es el número que se usará para los cálculos.
