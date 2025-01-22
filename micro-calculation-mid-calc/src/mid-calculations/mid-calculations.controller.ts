@@ -2,6 +2,9 @@ import { Controller } from '@nestjs/common';
 import { MidCalculationsService } from './mid-calculations.service';
 import { MessagePattern } from '@nestjs/microservices';
 
+interface Data {
+  value: number;
+}
 @Controller('mid-calculations')
 export class MidCalculationsController {
   constructor(
@@ -9,21 +12,10 @@ export class MidCalculationsController {
   ) {}
 
   @MessagePattern('isPrime')
-  isPrime(data: any) {
+  isPrime(data: Data) {
     return {
       isPrime: this.midCalculationsService.isPrime(data.value),
     };
   }
-  @MessagePattern('fibonacci')
-  fibonacci(data: any) {
-    return {
-      fibonacci: this.midCalculationsService.fibonacci(data.value),
-    };
-  }
-  @MessagePattern('factorial')
-  factorial(data: any) {
-    return {
-      factorial: this.midCalculationsService.factorial(data.value),
-    };
-  }
+  
 }

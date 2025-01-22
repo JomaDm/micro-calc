@@ -8,6 +8,8 @@ export class CalculationsService {
     private readonly basicCalculationClient: ClientProxy,
     @Inject('MID_CALCULATIONS_SERVICE')
     private readonly midCalculationClient: ClientProxy,
+    @Inject('COMPLEX_CALCULATIONS_SERVICE')
+    private readonly complexCalculationClient: ClientProxy,
   ) {}
 
   async doCalculations(value: number) {
@@ -19,11 +21,14 @@ export class CalculationsService {
       ...(await this.midCalculationClient
         .send('isPrime', { value })
         .toPromise()),
-      ...(await this.midCalculationClient
+      ...(await this.complexCalculationClient
         .send('fibonacci', { value })
         .toPromise()),
-      ...(await this.midCalculationClient
+      ...(await this.complexCalculationClient
         .send('factorial', { value })
+        .toPromise()),
+      ...(await this.complexCalculationClient
+        .send('factors', { value })
         .toPromise()),
     };
   }
