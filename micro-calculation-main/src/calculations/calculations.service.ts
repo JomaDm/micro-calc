@@ -7,7 +7,16 @@ export class CalculationsService {
     @Inject('CALCULATIONS_SERVICE')
     private readonly calculationClient: ClientProxy,
   ) {}
-  async doCalculations(number: number) {
-    return { isPair: await this.calculationClient.send('pairing', number) };
+
+  async doCalculations(value: number) {
+    return {
+      ...await this.calculationClient
+        .send('isPair', { value })
+        .toPromise(),
+      ...await this.calculationClient
+        .send('sum', { value })
+        .toPromise(),
+      
+    };
   }
 }

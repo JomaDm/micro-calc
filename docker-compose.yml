@@ -1,16 +1,39 @@
-version: "3.8"
 services:
   rabbitmq:
     image: rabbitmq:3-management
     ports:
       - "5672:5672"
       - "15672:15672"
+    networks:
+      - rabbit-network
     environment:
       RABBITMQ_DEFAULT_USER: user
       RABBITMQ_DEFAULT_PASS: password
-  # micro-calculation-main:
-  #   ports:
-  #     - "3000:3000"
-  #   build:
-  #     context: ./micro-calculation-main
-  #     dockerfile: Dockerfile
+  micro-calculation-main:
+    ports:
+      - "3000:3000"
+    networks:
+      - rabbit-network
+    build:
+      context: ./micro-calculation-main
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbitmq
+    environment:
+      RABBIT_URL: amqp://user:password@rabbitmq:5672
+      NODE_ENV: prod
+  micro-calculation-basic-calc:
+    build:
+      context: ./micro-calculation-basic-calc
+      dockerfile: Dockerfile
+    networks:
+      - rabbit-network
+    depends_on:
+      - rabbitmq
+      - micro-calculation-main
+    environment:
+      RABBIT_URL: amqp://user:password@rabbitmq:5672
+      NODE_ENV: prod
+networks:
+  rabbit-network:
+    driver: bridge

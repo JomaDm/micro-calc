@@ -10,10 +10,14 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         name: 'CALCULATIONS_SERVICE',
         transport: Transport.RMQ,
         options: {
-          urls: ['amqp://user:password@localhost:5672'],
+          urls: [
+            process.env.NODE_ENV == 'prod'
+              ? process.env.RABBIT_URL
+              : 'amqp://user:password@localhost:5672',
+          ],
           queue: 'calc_queue',
           queueOptions: {
-            durable: false,
+            durable: true,
           },
         },
       },
