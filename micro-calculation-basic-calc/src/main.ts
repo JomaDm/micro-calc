@@ -13,7 +13,7 @@ async function bootstrap() {
             ? process.env.RABBIT_URL
             : 'amqp://user:password@localhost:5672',
         ],
-        queue: 'calc_queue',
+        queue: 'basic_calc_queue',
         queueOptions: {
           durable: true,
         },

@@ -34,6 +34,18 @@ services:
     environment:
       RABBIT_URL: amqp://user:password@rabbitmq:5672
       NODE_ENV: prod
+  micro-calculation-mid-calc:
+    build:
+      context: ./micro-calculation-mid-calc
+      dockerfile: Dockerfile
+    networks:
+      - rabbit-network
+    depends_on:
+      - rabbitmq
+      - micro-calculation-main
+    environment:
+      RABBIT_URL: amqp://user:password@rabbitmq:5672
+      NODE_ENV: prod
 networks:
   rabbit-network:
     driver: bridge
